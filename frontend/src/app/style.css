@@ -1,0 +1,36 @@
+@import "tailwindcss";
+
+@theme inline {
+	--animate-spotlight: spotlight 2s ease 0.75s 1 forwards;
+}
+
+@keyframes spotlight {
+	0% {
+		opacity: 0;
+		transform: translate(-72%, -62%) scale(0.5);
+	}
+	100% {
+		opacity: 1;
+		transform: translate(-50%, -40%) scale(1);
+	}
+}
+
+* {
+	margin: 0;
+}
+
+body {
+	height: 100%;
+	background: linear-gradient(hsla(0, 0%, 100%, 0.09), transparent 90%),
+		linear-gradient(
+			180deg,
+			rgba(97, 106, 115, 0) 0,
+			rgba(97, 106, 115, 0.05) 40%,
+			rgba(97, 106, 115, 0.05) 80%,
+			rgba(97, 106, 115, 0) 100%
+		), #050607;
+}
+
+html {
+	font-family: sans-serif;
+}

@@ -1,0 +1,174 @@
+{
+  "Version": 1,
+  "WorkspaceRootPath": "C:\\Users\\Denis\\Documents\\MyProject\\\u0414\u0438\u043F\u043B\u043E\u043C\\ViewerBIM\\",
+  "Documents": [
+    {
+      "AbsoluteMoniker": "D:0:0:{3ED077AB-5A71-46C0-91A9-D21BC0D5C647}|backend\\ProjectsService\\ProjectsService.csproj|c:\\users\\denis\\documents\\myproject\\\u0434\u0438\u043F\u043B\u043E\u043C\\viewerbim\\backend\\projectsservice\\projectsservice.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{3ED077AB-5A71-46C0-91A9-D21BC0D5C647}|backend\\ProjectsService\\ProjectsService.csproj|solutionrelative:backend\\projectsservice\\projectsservice.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{8374A4AC-1BBB-4274-B614-D108F828332F}|backend\\IdentityService\\IdentityService.csproj|c:\\users\\denis\\documents\\myproject\\\u0434\u0438\u043F\u043B\u043E\u043C\\viewerbim\\backend\\identityservice\\identityservice.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|",
+      "RelativeMoniker": "D:0:0:{8374A4AC-1BBB-4274-B614-D108F828332F}|backend\\IdentityService\\IdentityService.csproj|solutionrelative:backend\\identityservice\\identityservice.csproj||{FA3CD31E-987B-443A-9B81-186104E8DAC1}|"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E6FFCBFA-1B33-4340-8AB1-C678A4C3AEE4}|backend\\LoaderPlugin\\LoaderPlugin.csproj|c:\\users\\denis\\documents\\myproject\\\u0434\u0438\u043F\u043B\u043E\u043C\\viewerbim\\backend\\loaderplugin\\commands\\ifcloader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E6FFCBFA-1B33-4340-8AB1-C678A4C3AEE4}|backend\\LoaderPlugin\\LoaderPlugin.csproj|solutionrelative:backend\\loaderplugin\\commands\\ifcloader.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{E6FFCBFA-1B33-4340-8AB1-C678A4C3AEE4}|backend\\LoaderPlugin\\LoaderPlugin.csproj|C:\\Users\\Denis\\Documents\\MyProject\\\u0414\u0438\u043F\u043B\u043E\u043C\\ViewerBIM\\backend\\loaderplugin\\main.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{E6FFCBFA-1B33-4340-8AB1-C678A4C3AEE4}|backend\\LoaderPlugin\\LoaderPlugin.csproj|solutionrelative:backend\\loaderplugin\\main.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Denis\\Documents\\MyProject\\\u0414\u0438\u043F\u043B\u043E\u043C\\ViewerBIM\\LoaderPlugin\\Class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:LoaderPlugin\\Class1.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Denis\\Documents\\MyProject\\\u0414\u0438\u043F\u043B\u043E\u043C\\ViewerBIM\\backend\\Program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:backend\\Program.cs||{A6C744A8-0E4A-4FC6-886A-064283054674}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Denis\\Documents\\MyProject\\\u0414\u0438\u043F\u043B\u043E\u043C\\ViewerBIM\\backend\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:backend\\appsettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    },
+    {
+      "AbsoluteMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|C:\\Users\\Denis\\Documents\\MyProject\\\u0414\u0438\u043F\u043B\u043E\u043C\\ViewerBIM\\backend\\Properties\\launchSettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}",
+      "RelativeMoniker": "D:0:0:{A2FE74E1-B743-11D0-AE1A-00A0C90FFFC3}|\u003CMiscFiles\u003E|solutionrelative:backend\\Properties\\launchSettings.json||{90A6B3A7-C1A3-4009-A288-E2FF89E96FA0}"
+    }
+  ],
+  "DocumentGroupContainers": [
+    {
+      "Orientation": 0,
+      "VerticalTabListWidth": 256,
+      "DocumentGroups": [
+        {
+          "DockedWidth": 200,
+          "SelectedChildIndex": 1,
+          "Children": [
+            {
+              "$type": "Document",
+              "DocumentIndex": 1,
+              "Title": "IdentityService",
+              "DocumentMoniker": "C:\\Users\\Denis\\Documents\\MyProject\\\u0414\u0438\u043F\u043B\u043E\u043C\\ViewerBIM\\backend\\IdentityService\\IdentityService.csproj",
+              "RelativeDocumentMoniker": "backend\\IdentityService\\IdentityService.csproj",
+              "ToolTip": "C:\\Users\\Denis\\Documents\\MyProject\\\u0414\u0438\u043F\u043B\u043E\u043C\\ViewerBIM\\backend\\IdentityService\\IdentityService.csproj",
+              "RelativeToolTip": "backend\\IdentityService\\IdentityService.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-06-03T18:30:22.671Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 0,
+              "Title": "ProjectsService",
+              "DocumentMoniker": "C:\\Users\\Denis\\Documents\\MyProject\\\u0414\u0438\u043F\u043B\u043E\u043C\\ViewerBIM\\backend\\ProjectsService\\ProjectsService.csproj",
+              "RelativeDocumentMoniker": "backend\\ProjectsService\\ProjectsService.csproj",
+              "ToolTip": "C:\\Users\\Denis\\Documents\\MyProject\\\u0414\u0438\u043F\u043B\u043E\u043C\\ViewerBIM\\backend\\ProjectsService\\ProjectsService.csproj",
+              "RelativeToolTip": "backend\\ProjectsService\\ProjectsService.csproj",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAABAAAAAQAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000758|",
+              "WhenOpened": "2025-06-03T18:28:50.517Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:1:0:{d212f56b-c48a-434c-a121-1c5d80b59b9f}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:128:0:{116d2292-e37d-41cd-a077-ebacac4c8cc4}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{3ae79031-e1bc-11d0-8f78-00a0c9110057}"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 3,
+              "Title": "Main.cs",
+              "DocumentMoniker": "C:\\Users\\Denis\\Documents\\MyProject\\\u0414\u0438\u043F\u043B\u043E\u043C\\ViewerBIM\\backend\\LoaderPlugin\\Main.cs",
+              "RelativeDocumentMoniker": "backend\\LoaderPlugin\\Main.cs",
+              "ToolTip": "C:\\Users\\Denis\\Documents\\MyProject\\\u0414\u0438\u043F\u043B\u043E\u043C\\ViewerBIM\\backend\\LoaderPlugin\\Main.cs",
+              "RelativeToolTip": "backend\\LoaderPlugin\\Main.cs",
+              "ViewState": "AgIAAAAAAAAAAAAAAAAAAAwAAAApAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-02T10:21:00.048Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 2,
+              "Title": "IfcLoader.cs",
+              "DocumentMoniker": "C:\\Users\\Denis\\Documents\\MyProject\\\u0414\u0438\u043F\u043B\u043E\u043C\\ViewerBIM\\backend\\LoaderPlugin\\Commands\\IfcLoader.cs",
+              "RelativeDocumentMoniker": "backend\\LoaderPlugin\\Commands\\IfcLoader.cs",
+              "ToolTip": "C:\\Users\\Denis\\Documents\\MyProject\\\u0414\u0438\u043F\u043B\u043E\u043C\\ViewerBIM\\backend\\LoaderPlugin\\Commands\\IfcLoader.cs",
+              "RelativeToolTip": "backend\\LoaderPlugin\\Commands\\IfcLoader.cs",
+              "ViewState": "AgIAAAYAAAAAAAAAAAAAAEIAAABgAAAAAAAAAA==",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-02T09:54:58.189Z",
+              "EditorCaption": ""
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 4,
+              "Title": "Class1.cs",
+              "DocumentMoniker": "C:\\Users\\Denis\\Documents\\MyProject\\\u0414\u0438\u043F\u043B\u043E\u043C\\ViewerBIM\\LoaderPlugin\\Class1.cs",
+              "RelativeDocumentMoniker": "LoaderPlugin\\Class1.cs",
+              "ToolTip": "C:\\Users\\Denis\\Documents\\MyProject\\\u0414\u0438\u043F\u043B\u043E\u043C\\ViewerBIM\\LoaderPlugin\\Class1.cs",
+              "RelativeToolTip": "LoaderPlugin\\Class1.cs",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-04-01T19:21:05.148Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 6,
+              "Title": "appsettings.json",
+              "DocumentMoniker": "C:\\Users\\Denis\\Documents\\MyProject\\\u0414\u0438\u043F\u043B\u043E\u043C\\ViewerBIM\\backend\\appsettings.json",
+              "RelativeDocumentMoniker": "backend\\appsettings.json",
+              "ToolTip": "C:\\Users\\Denis\\Documents\\MyProject\\\u0414\u0438\u043F\u043B\u043E\u043C\\ViewerBIM\\backend\\appsettings.json",
+              "RelativeToolTip": "backend\\appsettings.json",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-02-04T18:44:39.384Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 7,
+              "Title": "launchSettings.json",
+              "DocumentMoniker": "C:\\Users\\Denis\\Documents\\MyProject\\\u0414\u0438\u043F\u043B\u043E\u043C\\ViewerBIM\\backend\\Properties\\launchSettings.json",
+              "RelativeDocumentMoniker": "backend\\Properties\\launchSettings.json",
+              "ToolTip": "C:\\Users\\Denis\\Documents\\MyProject\\\u0414\u0438\u043F\u043B\u043E\u043C\\ViewerBIM\\backend\\Properties\\launchSettings.json",
+              "RelativeToolTip": "backend\\Properties\\launchSettings.json",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.001642|",
+              "WhenOpened": "2025-02-04T18:43:23.147Z"
+            },
+            {
+              "$type": "Document",
+              "DocumentIndex": 5,
+              "Title": "Program.cs",
+              "DocumentMoniker": "C:\\Users\\Denis\\Documents\\MyProject\\\u0414\u0438\u043F\u043B\u043E\u043C\\ViewerBIM\\backend\\Program.cs",
+              "RelativeDocumentMoniker": "backend\\Program.cs",
+              "ToolTip": "C:\\Users\\Denis\\Documents\\MyProject\\\u0414\u0438\u043F\u043B\u043E\u043C\\ViewerBIM\\backend\\Program.cs",
+              "RelativeToolTip": "backend\\Program.cs",
+              "Icon": "ae27a6b0-e345-4288-96df-5eaf394ee369.000738|",
+              "WhenOpened": "2025-02-04T18:43:06.279Z"
+            }
+          ]
+        },
+        {
+          "DockedWidth": 1473,
+          "SelectedChildIndex": -1,
+          "Children": [
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{34e76e81-ee4a-11d0-ae2e-00a0c90fffc3}"
+            },
+            {
+              "$type": "Bookmark",
+              "Name": "ST:0:0:{d78612c7-9962-4b83-95d9-268046dad23a}"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

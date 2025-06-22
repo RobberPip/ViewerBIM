@@ -1,0 +1,90 @@
+version: '3.8'
+
+services:
+  nginx:
+    build:
+      context: ./backend/nginx
+    ports:
+      - "80:80"  # Прокидываем только порт 80 для Nginx
+    volumes:
+      - ./backend/nginx/nginx.conf.template:/etc/nginx/nginx.conf.template
+      - ./backend/nginx/conf.d:/etc/nginx/conf.d
+    env_file:
+      - .env
+    entrypoint: ["/bin/sh", "/docker-entrypoint.sh"]
+    depends_on:
+      - identityservice
+      - projectsservice
+      - db_user
+      - db_projects
+    networks:
+      - db_network
+      - nginx_network  # Сеть для изоляции Nginx и сервисов
+  db_user:
+    image: postgres:latest
+    container_name: bim_user_db
+    environment:
+      POSTGRES_USER: ${USER_DB_USER}
+      POSTGRES_PASSWORD: ${USER_DB_PASSWORD}
+      POSTGRES_DB: ${USER_DB_NAME}
+    volumes:
+      - postgres_user_data:/var/lib/postgresql/data
+    ports:
+      - "${USER_DB_PORT}:5432"
+    networks:
+      - db_network
+
+  db_projects:
+    image: postgres:latest
+    container_name: bim_projects_db
+    environment:
+      POSTGRES_USER: ${PROJECTS_DB_USER}
+      POSTGRES_PASSWORD: ${PROJECTS_DB_PASSWORD}
+      POSTGRES_DB: ${PROJECTS_DB_NAME}
+    volumes:
+      - postgres_project_data:/var/lib/postgresql/data
+    ports:
+      - "${PROJECTS_DB_PORT}:5432"
+    networks:
+      - db_network
+
+  identityservice:
+    build:
+      context: ./backend/IdentityService
+    ports:
+      - "${NGINX_PORT_API_AUTH}:5000"
+    networks:
+      - db_network
+      - nginx_network
+    env_file:
+      - .env
+
+  projectsservice:
+    build:
+      context: ./backend/ProjectsService
+    networks:
+      - db_network
+      - nginx_network  # Подключаем к сети Nginx для взаимодействия
+    env_file:
+      - .env
+  aiservice:
+    build:
+      context: ./backend/AiService 
+    ports:
+      - "5018:5018"
+    env_file:
+      - .env
+    networks:
+      - nginx_network
+    depends_on:
+      - db_user
+      - db_projects
+volumes:
+  postgres_user_data:
+  postgres_project_data:
+
+networks:
+  db_network:
+    driver: bridge
+  nginx_network:
+    driver: bridge  # Сеть для взаимодействия между сервисами Nginx и другими

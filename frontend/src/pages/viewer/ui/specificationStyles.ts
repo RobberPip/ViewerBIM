@@ -1,0 +1,15 @@
+export const specificationModalStyle = {
+	position: "absolute" as const,
+	top: "50%",
+	left: "50%",
+	transform: "translate(-50%, -50%)",
+	width: "90%",
+	maxWidth: 1200,
+	bgcolor: "#121212",
+	borderRadius: 2,
+	boxShadow: 24,
+	p: 4,
+	color: "white",
+	maxHeight: "80vh",
+	overflow: "auto",
+};

@@ -1,0 +1,31 @@
+.layout {
+	display: grid;
+	grid-template-areas:
+		"header header"
+		"side-panel content-header"
+		"side-panel content"
+		"footer footer";
+	grid-template-columns: auto 3fr;
+	grid-template-rows: auto auto 1fr auto;
+	height: 100svh;
+}
+
+.layout header {
+	grid-area: header;
+}
+
+.layout main {
+	grid-area: content;
+	overflow-y: auto;
+	min-width: 100%;
+}
+
+/* TODO FIX bottom */
+.layout footer {
+	grid-area: footer;
+}
+
+.layout aside {
+	grid-area: side-panel;
+	overflow-y: auto;
+}

@@ -1,0 +1,56 @@
+worker_processes auto;
+
+events {
+    worker_connections 1024;
+}
+
+http {
+    include /etc/nginx/mime.types;
+    sendfile on;
+    tcp_nopush on;
+    tcp_nodelay on;
+    keepalive_timeout 65;
+    types_hash_max_size 2048;
+    client_max_body_size 1g;
+
+    # Настройка логирования
+    log_format  main '$remote_addr - $remote_user [$time_local] "$request" '
+                      '$status $body_bytes_sent "$http_referer" '
+                      '"$http_user_agent" "$http_x_forwarded_for" '
+                      'Request URI: "$request_uri" '
+                      'Upstream: "$upstream_addr" '
+                      'UserId: "$user_id"';
+
+    access_log /var/log/nginx/access.log main;
+    error_log  /dev/stderr warn;
+
+    server {
+        listen 80;
+        server_name $NGINX_HOST;
+
+        # Основной запрос к защищенным ресурсам
+        location /api/proj/p/ {
+            auth_request /auth;
+            auth_request_set $user_id $upstream_http_userid;
+
+            # Передача запроса на projectsservice с сохранением исходного URI
+            proxy_pass http://$NGINX_HOST_API_PROJECTS:$NGINX_PORT_API_PROJECTS;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header UserId $user_id;
+        }
+
+        # Запрос авторизации
+        location /auth {
+            internal;
+            proxy_pass http://$NGINX_HOST_API_AUTH:$NGINX_PORT_API_AUTH/manage/info;
+            proxy_set_header Host $host;
+            proxy_set_header X-Real-IP $remote_addr;
+            proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+            proxy_set_header Cookie $http_cookie;
+            proxy_set_header Content-Length "";
+            proxy_pass_request_body off;
+        }
+    }
+}
