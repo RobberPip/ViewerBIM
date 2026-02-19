@@ -21,11 +21,12 @@ import {
 	$projectId,
 } from "./model.ts";
 import { useUnit } from "effector-react";
+import { createClassifierManager } from "~/widgets/components/classifications.tsx";
 export let jsonModelsBlobs: { name: string; blob: Blob }[] = [];
 
 export const ViewerPage = () => {
 	const params = useUnit($urlsIFC);
-	const loaderId = useUnit($projectId);
+	useUnit($projectId); // used for project context
 	const [isLoading, setIsLoading] = useState(true);
 	const [progress, setProgress] = useState(0);
 	useEffect(() => {
@@ -52,12 +53,12 @@ export const ViewerPage = () => {
 
 			world.camera = new OBC.OrthoPerspectiveCamera(components);
 
-			const viewCube = document.createElement("bim-view-cube");
+			const viewCube = document.createElement("bim-view-cube") as any;
 			viewCube.camera = world.camera.three;
 			viewport.append(viewCube);
 
 			world.camera.controls.addEventListener("update", () =>
-				viewCube.updateOrientation(),
+				viewCube.updateOrientation?.(),
 			);
 
 			const worldGrid = components.get(OBC.Grids).create(world);
@@ -74,10 +75,8 @@ export const ViewerPage = () => {
 
 			components.init();
 
-			postproduction.enabled = true;
-			postproduction.customEffects.excludedMeshes.push(worldGrid.three);
-			postproduction.setPasses({ custom: true, ao: true, gamma: true });
-			postproduction.customEffects.lineColor = 0x17191c;
+			// v3: Postproduction API simplified — only style setter
+			postproduction.style = OBF.PostproductionAspect.COLOR_PEN;
 
 			const appManager = components.get(AppManager);
 			const appElement = document.getElementById("bim");
@@ -86,100 +85,17 @@ export const ViewerPage = () => {
 					viewport.querySelector<BUI.Grid>("bim-grid[floating]")!;
 				appManager.grids.set("viewport", viewportGrid);
 
+				// Инициализируем FragmentsManager с воркером
 				const fragments = components.get(OBC.FragmentsManager);
-				const indexer = components.get(OBC.IfcRelationsIndexer);
-				const classifier = components.get(OBC.Classifier);
-				classifier.list.CustomSelections = {};
+				fragments.init("/worker.mjs");
 
-				const ifcLoader = components.get(OBC.IfcLoader);
-				ifcLoader.setup();
-
-				const tilesLoader = components.get(OBF.IfcStreamer);
-				tilesLoader.world = world;
-				tilesLoader.culler.threshold = 10;
-				tilesLoader.culler.maxHiddenTime = 1000;
-				tilesLoader.culler.maxLostTime = 40000;
+				// Обновляем фрагменты при движении камеры
+				world.camera.controls.addEventListener("update", () =>
+					fragments.core.update(),
+				);
 
 				highlighter.setup({ world });
 				highlighter.zoomToSelection = true;
-
-				const culler = components.get(OBC.Cullers).create(world);
-				culler.threshold = 5;
-
-				world.camera.controls.restThreshold = 0.25;
-				world.camera.controls.addEventListener("rest", () => {
-					culler.needsUpdate = true;
-					tilesLoader.cancel = true;
-					tilesLoader.culler.needsUpdate = true;
-				});
-
-				fragments.onFragmentsLoaded.add(async (model) => {
-					if (model.hasProperties) {
-						await indexer.process(model);
-						classifier.byEntity(model);
-					}
-
-					if (!model.isStreamed) {
-						for (const fragment of model.items) {
-							world.meshes.add(fragment.mesh);
-							culler.add(fragment.mesh);
-						}
-					}
-
-					world.scene.three.add(model);
-
-					if (!model.isStreamed) {
-						setTimeout(async () => {
-							world.camera.fit(world.meshes, 0.8);
-						}, 50);
-					}
-				});
-
-				fragments.onFragmentsDisposed.add(({ fragmentIDs }) => {
-					for (const fragmentID of fragmentIDs) {
-						const mesh = [...world.meshes].find(
-							(mesh) => mesh.uuid === fragmentID,
-						);
-						if (mesh) {
-							world.meshes.delete(mesh);
-						}
-					}
-				});
-
-				// const createViewPrint = async () => {
-				// 	const marker = components.get(OBF.Marker);
-				// 	const viewpoints = components.get(OBC.Viewpoints);
-				// 	const viewpoint = viewpoints.create(world, {
-				// 		title: "ViewPoint",
-				// 	});
-				// 	viewpoint.updateCamera();
-				// 	const position = viewpoint.camera.position;
-				// 	const direction = viewpoint.camera.direction;
-				// 	const target = {
-				// 		x: position.x + direction.x * 80,
-				// 		y: position.y + direction.y * 80,
-				// 		z: position.z + direction.z * 80,
-				// 	};
-
-				// 	// addCamera(viewpoint);
-				// 	// marker.create(world, "🚀", new THREE.Vector3(cam.x, cam.y, cam.z));
-
-				// 	const renderer = world.renderer;
-				// 	if (!renderer) {
-				// 		throw new Error("A renderer is needed for the raycaster to work!");
-				// 	}
-				// 	marker.threshold = 50;
-				// 	const issuePayload: ProjectComponets["schemas"]["IssueIn"] = {
-				// 		position: JSON.stringify({
-				// 			x: position.x,
-				// 			y: position.y,
-				// 			z: position.z,
-				// 		}),
-				// 		target: JSON.stringify(target),
-				// 		loaderId: loaderId,
-				// 	};
-				// 	addIssueMutation.start(issuePayload);
-				// };
 
 				const toolbar = toolbarUi(components, world);
 				const leftPanel = leftPanelUi(components);
@@ -200,7 +116,7 @@ export const ViewerPage = () => {
 					},
 				};
 
-				app.layout = "main";
+				(app as any).layout = "main";
 				viewportGrid.layouts = {
 					main: {
 						template: `
@@ -223,11 +139,20 @@ export const ViewerPage = () => {
 					},
 				};
 
-				viewportGrid.layout = "second";
-				// LOAD AUTO IFC
-				const fragmentIfcLoader = components.get(OBC.IfcLoader);
-				await fragmentIfcLoader.setup();
+				(viewportGrid as any).layout = "second";
+
+				// Загрузка IFC файлов через IfcImporter (v3 API)
+				const ifcLoader = components.get(OBC.IfcLoader);
+				await ifcLoader.setup({
+					autoSetWasm: false,
+					wasm: {
+						path: "/",
+						absolute: true,
+					},
+				});
+
 				setIsLoading(true);
+
 				async function loadMultipleIfcs(urls: string[]) {
 					let loaded = 0;
 					const total = urls.length;
@@ -237,79 +162,36 @@ export const ViewerPage = () => {
 						const data = await file.arrayBuffer();
 						const buffer = new Uint8Array(data);
 
-						const model = await fragmentIfcLoader.load(buffer);
-						model.name = url.split("/").pop() || "model";
-						world.scene.three.add(model);
+						const modelName = url.split("/").pop() || `model_${loaded}`;
 
-						const indexer = components.get(OBC.IfcRelationsIndexer);
-						await indexer.process(model);
-						const allDataMap = new Map();
+						const model = await ifcLoader.load(buffer, true, modelName);
 
-						for (const item of model.items) {
-							for (const id of item.ids) {
-								const psets = indexer.getEntityRelations(model, id, "IsDefinedBy");
-								const propMap = new Map();
+						// Добавляем модель в сцену
+						world.scene.three.add(model.object);
+						model.useCamera(world.camera.three);
+						await fragments.core.update(true);
 
-								const elementProps = await model.getProperties(id);
-								const category = elementProps?.ObjectType || null;
-								const name = elementProps?.Name || null;
-								const type = OBC.IfcCategoryMap[elementProps?.type] || null;
-
-								for (const expressID of psets) {
-									await OBC.IfcPropertiesUtils.getPsetProps(model, expressID, async (propExpressID) => {
-										const prop = await model.getProperties(propExpressID);
-										if (prop && prop.expressID && !propMap.has(prop.expressID)) {
-											propMap.set(prop.expressID, prop);
-										}
-									});
-								}
-
-								if (allDataMap.has(id)) {
-									const existingEntry = allDataMap.get(id);
-									for (const [propID, prop] of propMap) {
-										if (!existingEntry.propsMap.has(propID)) {
-											existingEntry.propsMap.set(propID, prop);
-										}
-									}
-									if (!existingEntry.category && category) existingEntry.category = category;
-									if (!existingEntry.name && name) existingEntry.name = name;
-									if (!existingEntry.ifcType && type) existingEntry.ifcType = type;
-								} else {
-									allDataMap.set(id, {
-										propsMap: propMap,
-										category,
-										name,
-										ifcType: type,
-									});
-								}
-							}
-						}
-
-						// Преобразуем Map в массив
-						const allData = Array.from(allDataMap.entries()).map(
-							([itemId, { propsMap, category, name, ifcType }]) => ({
-								itemId,
-								category,
-								name,
-								ifcType,
-								props: Array.from(propsMap.values()),
-							})
-						);
-
-						// Преобразуем в JSON blob и добавляем в массив
-						const modelJson = JSON.stringify(allData, null, 2);
-						const blobJson = new Blob([modelJson], { type: "application/json" });
-						jsonModelsBlobs.push({
-						name: `${model.name}_props_by_item.json`, 
-						blob: blobJson
-					});
 						Models.push(model);
 						loaded++;
 						setProgress(Math.floor((loaded / total) * 100));
 					}
+
+					// Подгоняем камеру по bounding box всех моделей
+					if (Models.length > 0) {
+						const bbox = new THREE.Box3();
+						for (const m of Models) {
+							bbox.expandByObject(m.object);
+						}
+						if (!bbox.isEmpty()) {
+							const sphere = bbox.getBoundingSphere(new THREE.Sphere());
+							sphere.radius *= 1.2;
+							await world.camera.controls.fitToSphere(sphere, true);
+						}
+					}
 				}
 
 				await loadMultipleIfcs(params);
+				
 				setIsLoading(false);
 			} else {
 				console.error('Элемент с id "bim" не найден');

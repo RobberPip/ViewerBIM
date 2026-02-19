@@ -1,5 +1,4 @@
 import { createMutation, createQuery } from "@farfetched/core";
-import * as OBC from "@thatopen/components";
 
 import { routes } from "../../shared/routing";
 import {
@@ -15,12 +14,9 @@ import {
 	createProjectsApiEffect,
 	createProjectsApiEffectWithContract,
 } from "~/shared/api/clinet";
-import type { components as ProjectComponents } from "~/shared/api/schema-projects";
 import {
 	highlighter,
 	Models,
-	WorldModel,
-	components,
 } from "~/shared/lib/untils";
 
 import { debug } from "patronum";
@@ -146,12 +142,15 @@ guard({
 });
 
 
-// Эффект подсветки элементов по GlobalId
+// Эффект подсветки элементов по GlobalId (v3: getFragmentMap removed, use model.object lookup)
 const highlightEffect = createEffect<string, void>((text) => {
 	const expressIds = text.split(",").map((id) => parseInt(id.trim(), 10));
+	// In v3, highlighting by express IDs requires building a ModelIdMap
+	// For now we create a minimal map using the model id and local ids
 	for (const model of Models) {
-		const fragments = model.getFragmentMap(expressIds);
-		highlighter.highlightByID("select", fragments, false, false);
+		const modelIdMap: Record<string, Set<number>> = {};
+		modelIdMap[model.modelId] = new Set(expressIds);
+		highlighter.highlightByID("select", modelIdMap, false, false);
 	}
 });
 
@@ -173,6 +172,13 @@ export const updateTable = createEvent<string>();
 // Создаем стор с начальными данными
 export const $attributesTable = createStore<string>("").on(
 	updateTable,
+	(_, payload) => payload,
+);
+
+// Стор для структурированных данных таблицы (для Specification)
+export const updateTableData = createEvent<any[]>();
+export const $tableData = createStore<any[]>([]).on(
+	updateTableData,
 	(_, payload) => payload,
 );
 

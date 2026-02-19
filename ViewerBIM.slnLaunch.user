@@ -1,0 +1,15 @@
+[
+  {
+    "Name": "Новый профиль",
+    "Projects": [
+      {
+        "Path": "backend\\IdentityService\\IdentityService.csproj",
+        "Action": "Start"
+      },
+      {
+        "Path": "backend\\ProjectsService\\ProjectsService.csproj",
+        "Action": "Start"
+      }
+    ]
+  }
+]

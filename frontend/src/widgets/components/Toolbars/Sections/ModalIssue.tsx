@@ -16,7 +16,7 @@ import { useState } from "react";
 import * as OBC from "@thatopen/components";
 import { components, highlighter } from "~/shared/lib/untils";
 import { useUnit } from "effector-react";
-import { $viewer, viewerQuery } from "~/shared/auth";
+import { $viewer } from "~/shared/auth";
 import { $projectId, addIssueMutation } from "~/pages/viewer";
 
 interface ModalIssueProps {
@@ -84,7 +84,7 @@ const handleSubmit = async () => {
   if (!firstWorld) {
     console.warn("No world available for creating a viewpoint.");
   } else {
-    const viewpoint = viewpoints.create(firstWorld, { title: topic.title });
+    const viewpoint = viewpoints.create({ title: topic.title });
 
     selectedIds.forEach(id => {
       viewpoint.selectionComponents.add(String(id));

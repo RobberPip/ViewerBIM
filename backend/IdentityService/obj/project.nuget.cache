@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "TtnVDUWO8kw=",
+  "dgSpecHash": "EPPy6aqNlPw=",
   "success": true,
-  "projectFilePath": "C:\\Users\\Denis\\Documents\\MyProject\\Диплом\\ViewerBIM\\backend\\IdentityService\\IdentityService.csproj",
+  "projectFilePath": "F:\\Projects\\Диплом\\ViewerBIM\\backend\\IdentityService\\IdentityService.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\Denis\\.nuget\\packages\\humanizer.core\\2.14.1\\humanizer.core.2.14.1.nupkg.sha512",
     "C:\\Users\\Denis\\.nuget\\packages\\mediatr\\12.5.0\\mediatr.12.5.0.nupkg.sha512",
@@ -71,8 +71,10 @@
     {
       "code": "NU1608",
       "level": "Warning",
-      "warningLevel": 1,
       "message": "Detected package version outside of dependency constraint: MediatR.Extensions.Microsoft.DependencyInjection 11.1.0 requires MediatR (>= 11.0.0 && < 12.0.0) but version MediatR 12.5.0 was resolved.",
+      "projectPath": "F:\\Projects\\Диплом\\ViewerBIM\\backend\\IdentityService\\IdentityService.csproj",
+      "warningLevel": 1,
+      "filePath": "F:\\Projects\\Диплом\\ViewerBIM\\backend\\IdentityService\\IdentityService.csproj",
       "libraryId": "MediatR",
       "targetGraphs": [
         "net9.0"

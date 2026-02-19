@@ -8170,19 +8170,19 @@
   },
   "packageFolders": {
     "C:\\Users\\Denis\\.nuget\\packages\\": {},
-    "D:\\Visual Studio\\SDK\\NuGetPackages": {}
+    "D:\\Visual Studio\\Shared\\NuGetPackages": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\Denis\\Documents\\MyProject\\Диплом\\ViewerBIM\\backend\\ProjectsService\\ProjectsService.csproj",
+      "projectUniqueName": "F:\\Projects\\Диплом\\ViewerBIM\\backend\\ProjectsService\\ProjectsService.csproj",
       "projectName": "ProjectsService",
-      "projectPath": "C:\\Users\\Denis\\Documents\\MyProject\\Диплом\\ViewerBIM\\backend\\ProjectsService\\ProjectsService.csproj",
+      "projectPath": "F:\\Projects\\Диплом\\ViewerBIM\\backend\\ProjectsService\\ProjectsService.csproj",
       "packagesPath": "C:\\Users\\Denis\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Denis\\Documents\\MyProject\\Диплом\\ViewerBIM\\backend\\ProjectsService\\obj\\",
+      "outputPath": "F:\\Projects\\Диплом\\ViewerBIM\\backend\\ProjectsService\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
-        "D:\\Visual Studio\\SDK\\NuGetPackages"
+        "D:\\Visual Studio\\Shared\\NuGetPackages"
       ],
       "configFilePaths": [
         "C:\\Users\\Denis\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -8212,7 +8212,7 @@
         "auditLevel": "low",
         "auditMode": "direct"
       },
-      "SdkAnalysisLevel": "9.0.200"
+      "SdkAnalysisLevel": "10.0.200"
     },
     "frameworks": {
       "net9.0": {
@@ -8266,7 +8266,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\9.0.202/PortableRuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\10.0.200-preview.0.26103.119/PortableRuntimeIdentifierGraph.json"
       }
     }
   }

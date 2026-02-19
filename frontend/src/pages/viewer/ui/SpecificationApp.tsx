@@ -26,7 +26,7 @@ import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import * as XLSX from "xlsx";
 import { useUnit } from "effector-react";
-import { $attributesTable } from "../model";
+import { $tableData } from "../model";
 
 interface Column {
   field: string;
@@ -144,11 +144,10 @@ export const SpecificationApp = () => {
   const [columnSearch, setColumnSearch] = useState("");
   const searchInputRef = useRef<HTMLInputElement>(null);
 
-  const test = useUnit($attributesTable);  useEffect(() => {
-    const rows: Record<string, RowData> = {};
-    const columnNames: string[] = ["id"];
+  const rawRows = useUnit($tableData);
 
-    if (!test) {
+  useEffect(() => {
+    if (!rawRows || rawRows.length === 0) {
       setColumns([]);
       setTableRows([]);
       setSelectedColumns(defaultColumnsOrder);
@@ -157,62 +156,39 @@ export const SpecificationApp = () => {
       setSortBy(null);
       setSortDirection(null);
       return;
-    }const lines = test.split("\n").slice(1);
-    lines?.forEach((line) => {
-      const parts = line.split("\t");
-      if (parts.length < 4) return;
-      const id = parts[0].split(".")[0];
-      const name = parts[2];
-      const value = parts[3];
+    }
 
-      if (parts[0].indexOf(".") === -1) {
-        rows[id] = { id, "Код элемента": name };
-        if (!columnNames.includes("Код элемента")) {
-          columnNames.push("Код элемента");
-        }
-      } else {
-        if (!rows[id]) rows[id] = { id };
-        if (name && value) {
-          rows[id][name] = value;
-          if (!columnNames.includes(name)) {
-            columnNames.push(name);
-          }
+    // rawRows: { elementId, elementName, attrName, attrValue }[]
+    // Строим сводную таблицу: каждый элемент — строка, каждый атрибут — столбец
+    const rowsMap: Record<string, RowData> = {};
+    const columnNames: string[] = ["id", "Код элемента"];
+    for (const item of rawRows) {
+      const { elementId, elementName, attrName, attrValue } = item;
+      if (!rowsMap[elementId]) {
+        rowsMap[elementId] = { id: elementId, "Код элемента": elementName };
+      }
+      if (attrName && attrValue !== undefined && attrValue !== "") {
+        rowsMap[elementId][attrName] = attrValue;
+        if (!columnNames.includes(attrName)) {
+          columnNames.push(attrName);
         }
       }
-    });
+    }
 
     const cols = columnNames.map((field) => ({
       field,
       headerName: field,
       flex: 1,
-    }));    setColumns(cols);
-    
-    // Проверяем, впервые ли загружаются данные
-    const isFirstLoad = selectedColumns.length <= defaultColumnsOrder.length;
-    
-    // Если первая загрузка, используем defaultColumnsOrder
-    if (isFirstLoad) {
-      const validDefaultColumns = defaultColumnsOrder.filter(col => 
-        columnNames.includes(col));
-      setSelectedColumns(validDefaultColumns);
-      setColumnOrder(validDefaultColumns);
-    } else {
-      // Сохраняем текущий порядок выбранных столбцов
-      const currentSelectedColumns = [...selectedColumns];
-      const newColumnOrder = [...currentSelectedColumns];
-      
-      // Сохраняем только столбцы, которые существуют в данных
-      const filteredOrder = newColumnOrder.filter(col => 
-        columnNames.includes(col));
-      
-      setSelectedColumns(filteredOrder);
-      setColumnOrder(filteredOrder);
-    }
-    setTableRows(Object.values(rows));
+    }));
+    setColumns(cols);
+    // По умолчанию показываем только id и Код элемента — остальные выбирает пользователь
+    setSelectedColumns(defaultColumnsOrder);
+    setColumnOrder(defaultColumnsOrder);
+    setTableRows(Object.values(rowsMap));
     setFilters({});
     setSortBy(null);
     setSortDirection(null);
-  }, [test]);
+  }, [rawRows]);
 
   const uniqueValuesForColumn = (field: string) => {
     const values = new Set<string>();
@@ -355,7 +331,8 @@ export const SpecificationApp = () => {
 				renderValue={() => <span style={{ color: "white" }}>Столбцы</span>}
 				sx={{
 					mb: 2,
-					minWidth: 300,
+					width: 160,
+				flexShrink: 0,
 					"& .MuiOutlinedInput-notchedOutline": {
 						borderColor: "white",
 					},
@@ -371,8 +348,8 @@ export const SpecificationApp = () => {
 					disableAutoFocusItem: true,
 					PaperProps: {
 						style: {
-							maxHeight: 300,
-							maxWidth: 500,
+							maxHeight: 320,
+							width: 280,
 							backgroundColor: "#333",
 							color: "white",
 						},

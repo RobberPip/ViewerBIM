@@ -46,12 +46,19 @@ export default (components: OBC.Components) => {
 		newSelectionForm.style.display = "none";
 		saveSelectionBtn.style.display = "none";
 		const classifier = components.get(OBC.Classifier);
-		const customSelections = classifier.list.CustomSelections;
-		customSelections[groupName] = {
-			name: groupName,
-			map: highlighter.selection.select,
-			id: null,
-		};
+
+		// В v3 classifier.list — DataMap<string, DataMap<string, ClassificationGroupData>>
+		// Используем any чтобы обойти конфликт типов DataMap из OBC и FRAGS
+		if (!classifier.list.has("CustomSelections")) {
+			classifier.list.set("CustomSelections", new OBC.DataMap() as any);
+		}
+		const customGroup = classifier.list.get("CustomSelections")!;
+		const currentSelection = highlighter.selection.select;
+		(customGroup as any).set(groupName, {
+			map: currentSelection,
+			get: async () => currentSelection,
+		});
+
 		updateCustomSelections();
 		groupNameInput.value = "";
 	};

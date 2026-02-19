@@ -1,12 +1,31 @@
 import * as OBC from "@thatopen/components";
+import * as THREE from "three";
 import * as BUI from "@thatopen/ui";
+import { Models } from "~/shared/lib/untils.ts";
 
-export default (world: OBC.World) => {
+export default (world: OBC.World, _components: OBC.Components) => {
   const { camera } = world;
 
-  const onFitModel = () => {
-    if (camera instanceof OBC.OrthoPerspectiveCamera && world.meshes.size > 0) {
-      camera.fit(world.meshes, 0.5);
+  const onFitModel = async () => {
+    if (!(camera instanceof OBC.OrthoPerspectiveCamera)) return;
+
+    // Пробуем через world.meshes (стандартный путь)
+    if (world.meshes.size > 0) {
+      await camera.fit(world.meshes, 0.5);
+      return;
+    }
+
+    // Если world.meshes пуст (FragmentsModel), используем bounding box всех моделей
+    if (Models.length > 0) {
+      const bbox = new THREE.Box3();
+      for (const model of Models) {
+        bbox.expandByObject(model.object);
+      }
+      if (!bbox.isEmpty()) {
+        const sphere = bbox.getBoundingSphere(new THREE.Sphere());
+        sphere.radius *= 1.2;
+        await camera.controls.fitToSphere(sphere, true);
+      }
     }
   };
 
@@ -20,29 +39,11 @@ export default (world: OBC.World) => {
       : "majesticons:unlock-open";
   };
 
-  // const onProjectionDropdownCreated = (e?: Element) => {
-  //   if (!(e && camera instanceof OBC.OrthoPerspectiveCamera)) return;
-  //   const dropdown = e as BUI.Dropdown
-  //   dropdown.value = [camera.projection.current]
-  // }
-
-  // const onProjectionChange = (e: Event) => {
-  //   if (!(camera instanceof OBC.OrthoPerspectiveCamera)) return
-  //   const dropdown = e.target as BUI.Dropdown
-  //   const value = dropdown.value[0]
-  //   console.log(value)
-  //   camera.projection.set(value)
-  // }
-
   return BUI.Component.create<BUI.PanelSection>(() => {
     return BUI.html`
       <bim-toolbar-section label="Camera" icon="ph:camera-fill" style="pointer-events: auto">
         <bim-button label="Fit Model" icon="material-symbols:fit-screen-rounded" @click=${onFitModel}></bim-button>
         <bim-button label="Disable" icon="tabler:lock-filled" @click=${onLock} .active=${!camera.enabled}></bim-button>
-        <!-- <bim-dropdown required>
-          <bim-option label="Perspective"></bim-option>
-          <bim-option label="Orthographic"></bim-option>
-        </bim-dropdown> -->
       </bim-toolbar-section>
     `;
   });

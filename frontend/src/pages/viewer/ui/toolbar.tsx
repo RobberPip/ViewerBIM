@@ -5,7 +5,6 @@ import measurement from "../../../widgets/components/Toolbars/Sections/Measureme
 import selection from "../../../widgets/components/Toolbars/Sections/Selection.ts";
 import load from "../../../widgets/components/Toolbars/Sections/Import.ts";
 import type { Components, World } from "@thatopen/components";
-import { AppManager } from "~/widgets/bim-components/index.ts";
 
 export const toolbarUi = (
 	components: Components,
@@ -22,7 +21,7 @@ export const toolbarUi = (
         </bim-tab>
         <bim-tab label="Selection">
           <bim-toolbar>
-            ${camera(world)}
+            ${camera(world, components)}
             ${selection(components, world)}
           </bim-toolbar>
         </bim-tab>

@@ -1,5 +1,6 @@
 import type { Components } from "@thatopen/components";
 import settings from "../../../widgets/components/Panels/Settings.ts";
+import classifications from "../../../widgets/components/Panels/Classifications.ts";
 import * as BUI from "@thatopen/ui";
 import projectInformation from "../../../widgets/components/Panels/ProjectInformation.tsx";
 import {
@@ -25,7 +26,7 @@ import {
 } from "@mui/material";
 import { useState, useRef, useEffect } from "react";
 import { useUnit } from "effector-react";
-import { components, highlighter, Models} from "~/shared/lib/untils.ts";
+import { components, highlighter } from "~/shared/lib/untils.ts";
 
 const AiChat = () => {
 	const [messages, setMessages] = useState<string[]>([]);
@@ -198,7 +199,7 @@ const AiChat = () => {
 	);
 };
 export const Issues = () => {
-  const issues = useUnit(issuesMetaQuery.$data);
+  const issues = useUnit(issuesMetaQuery.$data) as unknown as any[];
   const openedIssueFile = useUnit($openedIssueFile);
 
   const [openedIssueId, setOpenedIssueId] = useState<string | null>(null);
@@ -226,7 +227,7 @@ export const Issues = () => {
         const uint8Array = new Uint8Array(buffer);
         setTopic(null);
         bcfTopics.dispose();
-        bcfTopics.load(uint8Array, world);
+        bcfTopics.load(uint8Array);
 
         setTimeout(() => {
           const firstTopic = bcfTopics.list?.values?.().next()?.value;
@@ -258,7 +259,7 @@ export const Issues = () => {
     const viewpoints = components.get(OBC.Viewpoints);
     const currentViewpoint = Array.from(viewpoints.list.values()).find(vp => vp.guid === topicViewpointGuid);
 
-    // Проверяем, есть ли у viewpoint selectionComponents
+    // В v3 selectionComponents хранится в viewpoint как ModelIdMap
     const hasSelectionComponents = !!(currentViewpoint && currentViewpoint.selectionComponents && currentViewpoint.selectionComponents.size > 0);
 
 
@@ -311,9 +312,13 @@ export const Issues = () => {
                   return;
                 }
 
-                for (const model of Models) {
-                  const fragments = model.getFragmentMap(currentViewpoint.selectionComponents as unknown as number[]);
-                  highlighter.highlightByID("select", fragments, false, false);
+                // В v3 selectionComponents хранится как ModelIdMap
+                if (currentViewpoint.selectionComponents) {
+                  const modelIdMap: Record<string, Set<number>> = {};
+                  for (const [modelId, ids] of (currentViewpoint.selectionComponents as any)) {
+                    modelIdMap[modelId] = new Set(ids);
+                  }
+                  highlighter.highlightByID("select", modelIdMap, false, false);
                 }
               }}
             >
@@ -386,6 +391,8 @@ export const leftPanelUi = (components: Components) => {
 	});
 
 	const projectInformationPanel = projectInformation(components);
+	
+	const classificationsPanel = classifications(components);
 
 	return BUI.Component.create(() => {
 		return BUI.html`
@@ -393,8 +400,13 @@ export const leftPanelUi = (components: Components) => {
         <bim-tab name="project" label="Project" icon="ph:building-fill">
           ${projectInformationPanel}
         </bim-tab>
+        <bim-tab name="categories" label="Categories" icon="ph:list-bullets-bold">
+          <bim-panel>
+            ${classificationsPanel}
+          </bim-panel>
+        </bim-tab>
         <bim-tab name="settings" label="Settings" icon="solar:settings-bold">
-          ${settings(components)}
+          ${settings()}
         </bim-tab>
         <bim-tab name="issues" label="Issues" icon="mdi:bug">
           <div id="react-issues" style="width: 100%; height: 100%;"></div>
